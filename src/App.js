@@ -4,20 +4,22 @@ import './App.css';
 import Header from './Header'
 import Footer from './Footer'
 import Recipe from './Recipe'
+import Cart from './Cart'
 import {fetchRecipes, fetchRecipe} from './API'
-
-/*let recipeData = {
-  title: "Apple pie",
-  ingredients: [
-    "butter", "sugar"
-  ]
-}*/
 
 class App extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      products: []
+    }
+  }
+
+  handleAddToCart = (ingredients) => {
+    this.setState(
+      {products: ingredients})
+    //console.log("Added stuff to cart" + ingredients);
   }
 
   componentDidMount() {
@@ -32,7 +34,8 @@ class App extends React.Component {
     return (
     <div className="App">
       <Header/>
-      <Recipe recipe={this.state.recipe}/>
+      <Cart products={this.state.products}/>
+      <Recipe recipe={this.state.recipe} addToCart={this.handleAddToCart}/>
       <Footer/>
     </div>
     )
