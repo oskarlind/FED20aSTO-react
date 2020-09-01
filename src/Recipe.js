@@ -26,7 +26,7 @@ class Recipe extends React.Component {
                 <h2>Instructions</h2>
                 <div id="instructions">{this.props.recipe.instructions}</div>
             </div>
-        } else return <div>Loading recipe...</div>
+        } else return <div>Please use the search bar to find recipes.</div>
     }
 }
 
