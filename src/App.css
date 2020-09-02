@@ -6,3 +6,13 @@
     background-color: #ff0000;
     color: #ffffff;
 }
+
+body {
+    margin: 10px;
+}
+
+input[type="text"], input[type="date"] {
+    width: 100%;
+    margin: 5px 0px;
+    box-sizing: border-box;
+}

@@ -5,9 +5,15 @@ import Header from './Header'
 import Footer from './Footer'
 import Recipe from './Recipe'
 import Cart from './Cart'
+import Contact from './Contact'
+import Orderform from './Orderform'
 import Searchbar from './Searchbar'
 import Errormessage from './Errormessage'
-import {fetchRecipes, fetchRecipe} from './API'
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+import { fetchRecipes, fetchRecipe } from './API'
 
 class App extends React.Component {
 
@@ -31,10 +37,10 @@ class App extends React.Component {
     fetchRecipes(this.state.search)
       .then(
         res => {
-          if(res.results.length > 0) {
+          if (res.results.length > 0) {
             return fetchRecipe(res.results[0].id)
           } else {
-            this.setState({error: "No results found, please try again!"})
+            this.setState({ error: "No results found, please try again!" })
           }
         }
       )
@@ -49,19 +55,29 @@ class App extends React.Component {
 
   handleAddToCart = (ingredients) => {
     this.setState(
-      {products: ingredients})
-    }
+      { products: ingredients })
+  }
 
   render() {
     return (
-    <div className="App">
-      <Header/>
-      {this.state.error && <Errormessage message={this.state.error} /> }
-      <Searchbar name="search" placeholder="Search recipes..." value={this.state.search} handleChange={this.handleChange} handleSearch={this.handleSearch} />
-      <Cart products={this.state.products}/>
-      <Recipe recipe={this.state.recipe} addToCart={this.handleAddToCart}/>
-      <Footer/>
-    </div>
+      <Router>
+        <div className="App">
+          <Header />
+          <Route exact path="/">
+            {this.state.error && <Errormessage message={this.state.error} />}
+            <Searchbar name="search" placeholder="Search recipes..." value={this.state.search} handleChange={this.handleChange} handleSearch={this.handleSearch} />
+            <Cart products={this.state.products} />
+            <Recipe recipe={this.state.recipe} addToCart={this.handleAddToCart} />
+          </Route>
+          <Route exact path="/contact">
+            <Contact/>
+          </Route>
+          <Route exact path="/order">
+            <Orderform/>
+          </Route>
+          <Footer />
+        </div>
+      </Router>
     )
   }
 }
