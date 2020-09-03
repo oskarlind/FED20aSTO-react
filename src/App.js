@@ -13,7 +13,7 @@ import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
-import { fetchRecipes, fetchRecipe } from './API'
+import { fetchRecipes, fetchRecipe, searchAutocomplete } from './API'
 
 class App extends React.Component {
 
@@ -21,7 +21,8 @@ class App extends React.Component {
     super(props)
     this.state = {
       products: [],
-      search: ""
+      search: "",
+      suggestions: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -31,6 +32,14 @@ class App extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     });
+    if (event.target.name == "search") {
+      searchAutocomplete(this.state.search, 10)
+        .then(res => {
+          this.setState({
+            suggestions: res
+          })
+        })
+    }
   }
 
   handleSearch() {
@@ -65,16 +74,23 @@ class App extends React.Component {
           <Header />
           <Route exact path="/">
             {this.state.error && <Errormessage message={this.state.error} />}
-            <Searchbar name="search" placeholder="Search recipes..." value={this.state.search} handleChange={this.handleChange} handleSearch={this.handleSearch} />
+            <Searchbar
+              name="search"
+              placeholder="Search recipes..."
+              value={this.state.search}
+              handleChange={this.handleChange}
+              handleSearch={this.handleSearch}
+              suggesions={this.state.suggestions}
+            />
             <Cart products={this.state.products} />
-            <Recipe recipe={this.state.recipe} addToCart={this.handleAddToCart} />
           </Route>
           <Route exact path="/contact">
-            <Contact/>
+            <Contact />
           </Route>
           <Route exact path="/order">
-            <Orderform/>
+            <Orderform />
           </Route>
+          <Route path="/recipe/:id" render={(props) => <Recipe {...props} addToCart={this.handleAddToCart} />} />
           <Footer />
         </div>
       </Router>

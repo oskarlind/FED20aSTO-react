@@ -9,3 +9,8 @@ export const fetchRecipe = (id) => {
     return fetch('https://api.spoonacular.com/recipes/'+id+'/information?apiKey='+apiKey)
     .then(response => response.json())
 }
+
+export const searchAutocomplete = (query, number) => {
+    return fetch('https://api.spoonacular.com/recipes/autocomplete?apiKey='+apiKey+'&query='+query+'&number='+number)
+    .then(response => response.json())
+}
