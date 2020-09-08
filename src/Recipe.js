@@ -1,5 +1,6 @@
 import React from 'react';
 import IngredientList from './IngredientList'
+import RecipeImage from './RecipeImage'
 import { fetchRecipe } from './API'
 
 class Recipe extends React.Component {
@@ -36,7 +37,7 @@ class Recipe extends React.Component {
     render() {
         if (this.state.recipe != undefined) {
             return <div>
-                <img id="main-image" src={this.state.recipe.image} />
+                <RecipeImage src={this.state.recipe.image} />
                 <h1 id="title">{this.state.recipe.title}</h1>
                 <div id="description">{this.state.recipe.title}</div>
                 <h2>Ingredients</h2>
