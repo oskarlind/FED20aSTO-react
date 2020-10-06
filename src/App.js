@@ -1,8 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
-import Header from './Header'
-import Footer from './Footer'
+import './App.scss';
+import Header from './components/Header'
+import Footer from './components/Footer'
 import Recipe from './Recipe'
 import Cart from './Cart'
 import Contact from './Contact'
@@ -22,7 +22,8 @@ class App extends React.Component {
     this.state = {
       products: [],
       search: "",
-      suggestions: []
+      suggestions: [],
+      loading: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
@@ -33,9 +34,13 @@ class App extends React.Component {
       [event.target.name]: event.target.value
     });
     if (event.target.name == "search") {
+      this.setState({
+        loading: true
+      })
       searchAutocomplete(this.state.search, 10)
         .then(res => {
           this.setState({
+            loading: false,
             suggestions: res
           })
         })
@@ -81,6 +86,7 @@ class App extends React.Component {
               handleChange={this.handleChange}
               handleSearch={this.handleSearch}
               suggesions={this.state.suggestions}
+              loading={this.state.loading}
             />
             <Cart products={this.state.products} />
           </Route>
