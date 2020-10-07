@@ -3,17 +3,20 @@ import logo from './logo.svg';
 import './App.scss';
 import Header from './components/Header'
 import Footer from './components/Footer'
+import GoogleAnalytics from './components/GoogleAnalytics'
 import Recipe from './Recipe'
 import Cart from './Cart'
 import Contact from './Contact'
 import Orderform from './Orderform'
 import Searchbar from './Searchbar'
+import GoogleMap from './components/GoogleMap'
 import Errormessage from './Errormessage'
 import {
   BrowserRouter as Router,
   Route
 } from 'react-router-dom'
 import { fetchRecipes, fetchRecipe, searchAutocomplete } from './API'
+import YouTube from './components/Youtube';
 
 class App extends React.Component {
 
@@ -77,6 +80,9 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <Header />
+          <GoogleAnalytics />
+          <GoogleMap/>
+          <YouTube url="https://www.youtube.com/embed/PkZNo7MFNFg" />
           <Route exact path="/">
             {this.state.error && <Errormessage message={this.state.error} />}
             <Searchbar
