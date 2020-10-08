@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import GoogleAnalytics from './components/GoogleAnalytics'
 import Recipe from './Recipe'
 import Cart from './Cart'
+import Success from './Success'
 import Contact from './Contact'
 import Orderform from './Orderform'
 import Searchbar from './Searchbar'
@@ -81,8 +82,8 @@ class App extends React.Component {
         <div className="App">
           <Header />
           <GoogleAnalytics />
-          <GoogleMap/>
-          <YouTube url="https://www.youtube.com/embed/PkZNo7MFNFg" />
+          {/*<GoogleMap/> */}
+          {/*<YouTube url="https://www.youtube.com/embed/PkZNo7MFNFg" />*/}
           <Route exact path="/">
             {this.state.error && <Errormessage message={this.state.error} />}
             <Searchbar
@@ -98,6 +99,9 @@ class App extends React.Component {
           </Route>
           <Route exact path="/contact">
             <Contact />
+          </Route>
+          <Route exact path="/success">
+            <Success />
           </Route>
           <Route exact path="/order">
             <Orderform />

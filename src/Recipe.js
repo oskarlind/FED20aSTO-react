@@ -2,6 +2,9 @@ import React from 'react';
 import IngredientList from './IngredientList'
 import RecipeImage from './RecipeImage'
 import { fetchRecipe } from './API'
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51HZiCoGFpgBM7fWEoMi9IpaBKxZ0m5qRLSKqcXoKjHnLK8CpC7WAmC55yiLcBxnlfInbrjS6GIJHnd8MvhvvaXmd00iqJ75laR');
 
 class Recipe extends React.Component {
 
@@ -12,6 +15,21 @@ class Recipe extends React.Component {
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleStripeCheckoutClick = this.handleStripeCheckoutClick.bind(this);
+    }
+
+    handleStripeCheckoutClick = async (event) => {
+        // When the customer clicks on the button, redirect them to Checkout.
+        const stripe = await stripePromise;
+        const { error } = await stripe.redirectToCheckout({
+            lineItems: [{
+                price: 'price_1HZtUlGFpgBM7fWERBWJxW7B', // The ID of your price
+                quantity: 2,
+            }],
+            mode: 'payment',
+            successUrl: 'http://localhost:3000/success',
+            cancelUrl: 'http://localhost:3000/cancel',
+        });
     }
 
     handleClick() {
@@ -54,6 +72,7 @@ class Recipe extends React.Component {
                     (ingredient) => IngredientList(ingredient, this.state.servings / this.state.recipe.servings)
                 )}</ul>
                 <div><button onClick={this.handleClick}>Add ingredients to cart</button></div>
+                <div><button onClick={this.handleStripeCheckoutClick}>Buy this recipe</button></div>
                 <h2>Instructions</h2>
                 <div id="instructions">{this.state.recipe.instructions}</div>
             </div>
